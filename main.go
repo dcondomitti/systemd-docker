@@ -302,7 +302,13 @@ func getCgroupsForPid(pid int) (map[string]string, error) {
 			continue
 		}
 
-		ret[line[1]] = line[2]
+		idx := line[1]
+
+		if idx == "cpuacct,cpu" {
+			idx = "cpu,cpuacct"
+		}
+
+		ret[idx] = line[2]
 	}
 
 	if err := scanner.Err(); err != nil {
